@@ -7,14 +7,14 @@ import Results from "./pages/Results";
 import ExportPage from "./pages/Export";
 
 export default function App() {
-  const [page, setPage] = useState("home");
+  const [currentView, setCurrentView] = useState("home");
   const [videoUrl, setVideoUrl] = useState(null);
-  const [selectedClip, setSelectedClip] = useState(null);
+  const [activeClip, setActiveClip] = useState(null);
 
   useEffect(() => {
-    // Smooth scroll to top on page change
+    // Smooth scroll to top when the visible page changes.
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [page]);
+  }, [currentView]);
 
   useEffect(() => {
     return () => {
@@ -24,26 +24,26 @@ export default function App() {
     };
   }, [videoUrl]);
 
-  const renderPage = () => {
-    switch (page) {
+  const renderView = () => {
+    switch (currentView) {
       case "upload":
-        return <Upload setPage={setPage} setVideoUrl={setVideoUrl} />;
+        return <Upload setPage={setCurrentView} setVideoUrl={setVideoUrl} />;
       case "processing":
-        return <Processing setPage={setPage} />;
+        return <Processing setPage={setCurrentView} />;
       case "results":
-        return <Results setPage={setPage} videoUrl={videoUrl} selectedClip={selectedClip} setSelectedClip={setSelectedClip} />;
+        return <Results setPage={setCurrentView} videoUrl={videoUrl} setSelectedClip={setActiveClip} />;
       case "export":
-        return <ExportPage setPage={setPage} videoUrl={videoUrl} selectedClip={selectedClip} />;
+        return <ExportPage setPage={setCurrentView} videoUrl={videoUrl} selectedClip={activeClip} />;
       default:
-        return <Home setPage={setPage} />;
+        return <Home setPage={setCurrentView} />;
     }
   };
 
   return (
     <div className="min-h-screen gradient-bg">
-      <Navbar setPage={setPage} />
+      <Navbar setPage={setCurrentView} />
       <main className="pt-16">
-        {renderPage()}
+        {renderView()}
       </main>
     </div>
   );

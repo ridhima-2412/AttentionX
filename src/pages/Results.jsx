@@ -58,11 +58,11 @@ const generatedClips = [
   }
 ];
 
-export default function Results({ setPage, videoUrl, selectedClip: appSelectedClip, setSelectedClip }) {
+export default function Results({ setPage, videoUrl, setSelectedClip }) {
   const [previewClip, setPreviewClip] = useState(null);
   const [previewModal, setPreviewModal] = useState(false);
 
-  const displayedClips = generatedClips.map((clip, index) => ({
+  const clips = generatedClips.map((clip, index) => ({
     ...clip,
     thumbnail: videoUrl || clip.thumbnail,
     videoUrl: videoUrl || clip.videoUrl,
@@ -72,9 +72,7 @@ export default function Results({ setPage, videoUrl, selectedClip: appSelectedCl
   const handlePreview = (clip) => {
     setPreviewClip(clip);
     setPreviewModal(true);
-    if (setSelectedClip) {
-      setSelectedClip(clip);
-    }
+    setSelectedClip?.(clip);
   };
 
   const handleDownload = (clip) => {
@@ -83,16 +81,12 @@ export default function Results({ setPage, videoUrl, selectedClip: appSelectedCl
   };
 
   const handleEdit = (clip) => {
-    if (setSelectedClip) {
-      setSelectedClip(clip);
-    }
+    setSelectedClip?.(clip);
     setPage('export');
   };
 
   const handleExportAll = () => {
-    if (setSelectedClip) {
-      setSelectedClip(null);
-    }
+    setSelectedClip?.(null);
     setPage('export');
   };
 
@@ -166,7 +160,7 @@ export default function Results({ setPage, videoUrl, selectedClip: appSelectedCl
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          {displayedClips.map((clip, index) => (
+          {clips.map((clip, index) => (
             <motion.div
               key={clip.id}
               initial={{ opacity: 0, y: 20 }}

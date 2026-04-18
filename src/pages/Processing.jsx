@@ -47,10 +47,10 @@ const totalDuration = steps.reduce((sum, step) => sum + step.duration, 0);
 export default function Processing({ setPage }) {
   const [elapsed, setElapsed] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
-  const finished = currentStep >= steps.length;
+  const isFinished = currentStep >= steps.length;
 
   useEffect(() => {
-    if (finished) {
+    if (isFinished) {
       const redirect = setTimeout(() => setPage('results'), 700);
       return () => clearTimeout(redirect);
     }
@@ -90,7 +90,7 @@ export default function Processing({ setPage }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {!finished ? (
+          {!isFinished ? (
             <>
               <motion.div
                 key={currentStep}

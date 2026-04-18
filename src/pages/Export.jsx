@@ -18,12 +18,12 @@ const hookTitles = [
 ];
 
 export default function ExportPage({ setPage, videoUrl, selectedClip }) {
-  const [selectedStyle, setSelectedStyle] = useState('modern');
-  const [customTitle, setCustomTitle] = useState('');
-  const [selectedHook, setSelectedHook] = useState(hookTitles[0]);
+  const [captionStyle, setCaptionStyle] = useState('modern');
+  const [headline, setHeadline] = useState('');
+  const [headlineTemplate, setHeadlineTemplate] = useState(hookTitles[0]);
   const [exporting, setExporting] = useState(false);
 
-  const clipPreview = selectedClip || {
+  const previewClip = selectedClip || {
     title: 'Uploaded Video',
     videoUrl,
     thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=600&fit=crop'
@@ -31,10 +31,10 @@ export default function ExportPage({ setPage, videoUrl, selectedClip }) {
 
   const handleExport = () => {
     setExporting(true);
-    // Simulate export process
+    // Simulate export process.
     setTimeout(() => {
       setExporting(false);
-      alert(`${clipPreview.title} exported successfully! 🎉`);
+      alert(`${previewClip.title} exported successfully! 🎉`);
       setPage('home');
     }, 3000);
   };
@@ -94,7 +94,7 @@ export default function ExportPage({ setPage, videoUrl, selectedClip }) {
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                   <div className="text-white">
                     <h3 className="font-bold text-lg mb-1">
-                      {customTitle || selectedHook}
+                      {headline || headlineTemplate}
                     </h3>
                     <p className="text-sm opacity-90">
                       Amazing productivity hack that changed my life forever! 💪
@@ -147,8 +147,8 @@ export default function ExportPage({ setPage, videoUrl, selectedClip }) {
                   <label className="block text-sm font-medium mb-2">Custom Title (Optional)</label>
                   <input
                     type="text"
-                    value={customTitle}
-                    onChange={(e) => setCustomTitle(e.target.value)}
+                    value={headline}
+                    onChange={(e) => setHeadline(e.target.value)}
                     placeholder="Enter your own hook title..."
                     className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
                   />
@@ -161,8 +161,8 @@ export default function ExportPage({ setPage, videoUrl, selectedClip }) {
                       <button
                         key={index}
                         onClick={() => {
-                          setSelectedHook(hook);
-                          setCustomTitle('');
+                          setHeadlineTemplate(hook);
+                          setHeadline('');
                         }}
                         className={`w-full text-left p-3 rounded-lg transition-all duration-200 ${
                           selectedHook === hook && !customTitle
@@ -189,9 +189,9 @@ export default function ExportPage({ setPage, videoUrl, selectedClip }) {
                 {captionStyles.map((style) => (
                   <button
                     key={style.id}
-                    onClick={() => setSelectedStyle(style.id)}
+                    onClick={() => setCaptionStyle(style.id)}
                     className={`p-4 rounded-lg border-2 transition-all duration-200 ${
-                      selectedStyle === style.id
+                      captionStyle === style.id
                         ? 'border-primary bg-primary/10'
                         : 'border-white/20 bg-white/5 hover:bg-white/10'
                     }`}
@@ -204,7 +204,7 @@ export default function ExportPage({ setPage, videoUrl, selectedClip }) {
                       }`}></div>
                       <h4 className="font-semibold text-sm">{style.name}</h4>
                       <p className="text-xs text-gray-400 mt-1">{style.preview}</p>
-                      {selectedStyle === style.id && (
+                      {captionStyle === style.id && (
                         <Check className="w-4 h-4 text-primary mx-auto mt-2" />
                       )}
                     </div>

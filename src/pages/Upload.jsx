@@ -9,7 +9,7 @@ const platforms = [
 ];
 
 export default function Upload({ setPage, setVideoUrl }) {
-  const [file, setFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -32,61 +32,60 @@ export default function Upload({ setPage, setVideoUrl }) {
     setDragActive(false);
 
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFile(e.dataTransfer.files[0]);
+      selectVideoFile(e.dataTransfer.files[0]);
     }
   };
 
-  const handleFile = (selectedFile) => {
-    if (selectedFile.type.startsWith('video/')) {
-      setFile(selectedFile);
-      if (setVideoUrl) {
-        setVideoUrl(URL.createObjectURL(selectedFile));
-      }
-    } else {
+  const isVideoFile = (file) => file?.type?.startsWith('video/');
+
+  const selectVideoFile = (file) => {
+    if (!isVideoFile(file)) {
       alert('Please select a video file');
+      return;
+    }
+
+    setSelectedFile(file);
+    setVideoUrl(URL.createObjectURL(file));
+  };
+
+  const handleFileSelect = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      selectVideoFile(event.target.files[0]);
     }
   };
 
-  const handleFileSelect = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      handleFile(e.target.files[0]);
-    }
-  };
-
-  const removeFile = () => {
-    setFile(null);
+  const clearSelection = () => {
+    setSelectedFile(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
-    if (setVideoUrl) {
-      setVideoUrl(null);
-    }
+    setVideoUrl(null);
   };
 
-  const togglePlatform = (platformId) => {
-    setSelectedPlatforms(prev =>
-      prev.includes(platformId)
-        ? prev.filter(id => id !== platformId)
-        : [...prev, platformId]
+  const togglePlatformSelection = (platformId) => {
+    setSelectedPlatforms((previous) =>
+      previous.includes(platformId)
+        ? previous.filter((id) => id !== platformId)
+        : [...previous, platformId]
     );
   };
 
-  const handleUpload = async () => {
-    if (!file || selectedPlatforms.length === 0) {
+  const startUpload = () => {
+    if (!selectedFile || selectedPlatforms.length === 0) {
       alert('Please select a file and at least one platform');
       return;
     }
 
     setUploading(true);
-    // Simulate upload progress
+
     const interval = setInterval(() => {
-      setUploadProgress(prev => {
-        if (prev >= 100) {
+      setUploadProgress((progress) => {
+        if (progress >= 100) {
           clearInterval(interval);
           setTimeout(() => setPage('processing'), 500);
           return 100;
         }
-        return prev + 10;
+        return progress + 10;
       });
     }, 200);
   };
@@ -115,7 +114,7 @@ export default function Upload({ setPage, setVideoUrl }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          {!file ? (
+          {!selectedFile ? (
             <div
               className={`glass p-12 text-center cursor-pointer transition-all duration-300 ${
                 dragActive ? 'border-primary border-2' : 'border-dashed border-white/30'
@@ -159,7 +158,7 @@ export default function Upload({ setPage, setVideoUrl }) {
                   </div>
                 </div>
                 <button
-                  onClick={removeFile}
+                  onClick={clearSelection}
                   className="text-red-400 hover:text-red-300 transition-colors"
                 >
                   <X className="w-6 h-6" />
@@ -202,7 +201,7 @@ export default function Upload({ setPage, setVideoUrl }) {
               return (
                 <motion.button
                   key={platform.id}
-                  onClick={() => togglePlatform(platform.id)}
+                  onClick={() => togglePlatformSelection(platform.id)}
                   className={`glass p-6 text-center transition-all duration-300 ${
                     isSelected ? 'ring-2 ring-primary' : ''
                   }`}
@@ -230,15 +229,15 @@ export default function Upload({ setPage, setVideoUrl }) {
           transition={{ delay: 0.6, duration: 0.6 }}
         >
           <button
-            onClick={handleUpload}
-            disabled={!file || selectedPlatforms.length === 0 || uploading}
+            onClick={startUpload}
+            disabled={!selectedFile || selectedPlatforms.length === 0 || uploading}
             className="btn-primary text-lg px-12 py-4 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {uploading ? 'Processing...' : 'Generate Viral Reels'}
           </button>
           <p className="text-gray-400 mt-4">
-            {!file && 'Please select a video file'}
-            {file && selectedPlatforms.length === 0 && 'Please select at least one platform'}
+            {!selectedFile && 'Please select a video file'}
+            {selectedFile && selectedPlatforms.length === 0 && 'Please select at least one platform'}
           </p>
         </motion.div>
       </div>
