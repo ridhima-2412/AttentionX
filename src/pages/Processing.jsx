@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import ProgressBar from '../components/ProgressBar';
 import Loader from '../components/Loader';
 import { Brain, Mic, Scissors, Sparkles, CheckCircle } from 'lucide-react';
@@ -10,76 +10,87 @@ const steps = [
     title: 'Upload Complete',
     description: 'Video uploaded successfully',
     icon: CheckCircle,
-    duration: 1000
+    duration: 1200
   },
   {
     id: 'analyze',
     title: 'Analyzing Audio',
     description: 'Detecting speech patterns and emotional peaks',
     icon: Mic,
-    duration: 3000
+    duration: 2000
   },
   {
     id: 'ai',
     title: 'AI Processing',
     description: 'Finding the most engaging moments',
     icon: Brain,
-    duration: 4000
+    duration: 2500
   },
   {
     id: 'crop',
     title: 'Smart Cropping',
     description: 'Converting to vertical format for reels',
     icon: Scissors,
-    duration: 2000
+    duration: 1800
   },
   {
     id: 'captions',
     title: 'Generating Captions',
     description: 'Creating viral titles and subtitles',
     icon: Sparkles,
-    duration: 2000
+    duration: 1500
   }
 ];
 
+const totalDuration = steps.reduce((sum, step) => sum + step.duration, 0);
+
 export default function Processing({ setPage }) {
+  const [elapsed, setElapsed] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [completed, setCompleted] = useState(false);
+  const finished = currentStep >= steps.length;
 
   useEffect(() => {
-    let timeout;
-    if (currentStep < steps.length) {
-      timeout = setTimeout(() => {
-        setCurrentStep(prev => prev + 1);
-      }, steps[currentStep].duration);
-    } else {
-      setCompleted(true);
-      setTimeout(() => setPage('results'), 2000);
+    if (finished) {
+      const redirect = setTimeout(() => setPage('results'), 700);
+      return () => clearTimeout(redirect);
     }
-    return () => clearTimeout(timeout);
-  }, [currentStep, setPage]);
+
+    const interval = setInterval(() => {
+      setElapsed((prev) => Math.min(prev + 100, totalDuration));
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [finished, setPage]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        const target = ((currentStep + 1) / steps.length) * 100;
-        if (prev >= target) return prev;
-        return Math.min(prev + 2, target);
-      });
-    }, 50);
-    return () => clearInterval(interval);
-  }, [currentStep]);
+    let cumulative = 0;
+    for (let index = 0; index < steps.length; index++) {
+      cumulative += steps[index].duration;
+      if (elapsed < cumulative) {
+        setCurrentStep(index);
+        return;
+      }
+    }
+    setCurrentStep(steps.length);
+  }, [elapsed]);
+
+  useEffect(() => {
+    setElapsed(0);
+    setCurrentStep(0);
+  }, []);
+
+  const activeStep = steps[Math.min(currentStep, steps.length - 1)] || steps[steps.length - 1];
+  const progress = Math.round((elapsed / totalDuration) * 100);
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-20">
+    <div className="min-h-screen flex items-center justify-center py-20 pt-32">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {!completed ? (
+          {!finished ? (
             <>
               <motion.div
                 key={currentStep}
@@ -89,20 +100,20 @@ export default function Processing({ setPage }) {
                 className="mb-8"
               >
                 <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  {React.createElement(steps[currentStep].icon, {
-                    className: "w-12 h-12 text-primary"
+                  {React.createElement(activeStep.icon, {
+                    className: 'w-12 h-12 text-primary'
                   })}
                 </div>
                 <h1 className="text-3xl md:text-4xl font-bold mb-2">
-                  {steps[currentStep].title}
+                  {activeStep.title}
                 </h1>
                 <p className="text-xl text-gray-300">
-                  {steps[currentStep].description}
+                  {activeStep.description}
                 </p>
               </motion.div>
 
               <div className="mb-8">
-                <ProgressBar progress={Math.round(progress)} label="Overall Progress" />
+                <ProgressBar progress={progress} label="Overall Progress" />
               </div>
 
               <div className="space-y-4">
@@ -158,6 +169,12 @@ export default function Processing({ setPage }) {
                 Your viral reels are ready
               </p>
               <Loader message="Redirecting to results..." />
+              <button
+                onClick={() => setPage('results')}
+                className="btn-primary mt-6 px-8 py-3"
+              >
+                Continue to Results
+              </button>
             </motion.div>
           )}
         </motion.div>

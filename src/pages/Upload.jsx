@@ -8,7 +8,7 @@ const platforms = [
   { id: 'youtube', name: 'YouTube Shorts', icon: Youtube, color: 'from-red-500 to-red-600' }
 ];
 
-export default function Upload({ setPage }) {
+export default function Upload({ setPage, setVideoUrl }) {
   const [file, setFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
@@ -39,6 +39,9 @@ export default function Upload({ setPage }) {
   const handleFile = (selectedFile) => {
     if (selectedFile.type.startsWith('video/')) {
       setFile(selectedFile);
+      if (setVideoUrl) {
+        setVideoUrl(URL.createObjectURL(selectedFile));
+      }
     } else {
       alert('Please select a video file');
     }
@@ -54,6 +57,9 @@ export default function Upload({ setPage }) {
     setFile(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
+    }
+    if (setVideoUrl) {
+      setVideoUrl(null);
     }
   };
 
@@ -86,7 +92,7 @@ export default function Upload({ setPage }) {
   };
 
   return (
-    <div className="min-h-screen py-20">
+    <div className="min-h-screen py-20 pt-32">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

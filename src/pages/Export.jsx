@@ -17,24 +17,30 @@ const hookTitles = [
   "This is blowing up right now"
 ];
 
-export default function ExportPage({ setPage }) {
+export default function ExportPage({ setPage, videoUrl, selectedClip }) {
   const [selectedStyle, setSelectedStyle] = useState('modern');
   const [customTitle, setCustomTitle] = useState('');
   const [selectedHook, setSelectedHook] = useState(hookTitles[0]);
   const [exporting, setExporting] = useState(false);
+
+  const clipPreview = selectedClip || {
+    title: 'Uploaded Video',
+    videoUrl,
+    thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=600&fit=crop'
+  };
 
   const handleExport = () => {
     setExporting(true);
     // Simulate export process
     setTimeout(() => {
       setExporting(false);
-      alert('Reel exported successfully! 🎉');
+      alert(`${clipPreview.title} exported successfully! 🎉`);
       setPage('home');
     }, 3000);
   };
 
   return (
-    <div className="min-h-screen py-20">
+    <div className="min-h-screen py-20 pt-32">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -71,11 +77,20 @@ export default function ExportPage({ setPage }) {
               </h2>
 
               <div className="aspect-[9/16] bg-black rounded-lg overflow-hidden mb-6 relative">
-                <img
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=600&fit=crop"
-                  alt="Reel preview"
-                  className="w-full h-full object-cover"
-                />
+                {clipPreview?.videoUrl ? (
+                  <video
+                    controls
+                    src={clipPreview.videoUrl}
+                    poster={clipPreview.thumbnail}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={clipPreview.thumbnail}
+                    alt="Reel preview"
+                    className="w-full h-full object-cover"
+                  />
+                )}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                   <div className="text-white">
                     <h3 className="font-bold text-lg mb-1">

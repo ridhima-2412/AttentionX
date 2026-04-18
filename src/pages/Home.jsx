@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
 import FeatureCard from "../components/Card";
-import { Upload, Zap, BarChart3, Users, Star, Play, CheckCircle } from 'lucide-react';
+import { Upload, Zap } from 'lucide-react';
 
 const features = [
   {
@@ -49,46 +48,10 @@ const howItWorks = [
   }
 ];
 
-const testimonials = [
-  {
-    name: "Sarah Chen",
-    role: "Content Creator",
-    content: "AttentionX turned my 2-hour podcast into 5 viral clips that got 500K views each!",
-    avatar: "SC"
-  },
-  {
-    name: "Mike Johnson",
-    role: "Educator",
-    content: "My lecture videos now reach 10x more students thanks to these engaging shorts.",
-    avatar: "MJ"
-  },
-  {
-    name: "Lisa Park",
-    role: "Business Coach",
-    content: "The AI captions are spot-on and the viral scores help me choose the best clips.",
-    avatar: "LP"
-  }
-];
-
-const stats = [
-  { number: "10M+", label: "Videos Processed" },
-  { number: "500M+", label: "Views Generated" },
-  { number: "50K+", label: "Creators" },
-  { number: "95%", label: "Satisfaction Rate" }
-];
-
 export default function Home({ setPage }) {
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pt-16">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-blue-900/20" />
@@ -135,39 +98,8 @@ export default function Home({ setPage }) {
                 <Upload className="w-5 h-5 inline mr-2" />
                 Start Creating
               </motion.button>
-              <motion.button
-                className="btn-secondary text-lg px-8 py-4"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Play className="w-5 h-5 inline mr-2" />
-                Watch Demo
-              </motion.button>
             </motion.div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                className="text-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                viewport={{ once: true }}
-              >
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-gray-300">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -244,64 +176,6 @@ export default function Home({ setPage }) {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Loved by Creators
-            </h2>
-            <p className="text-xl text-gray-300">
-              See what our users are saying
-            </p>
-          </motion.div>
-
-          <motion.div
-            key={currentTestimonial}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="glass p-8 text-center"
-          >
-            <div className="flex justify-center mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-              ))}
-            </div>
-            <blockquote className="text-lg mb-6 italic">
-              "{testimonials[currentTestimonial].content}"
-            </blockquote>
-            <div className="flex items-center justify-center space-x-4">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">
-                {testimonials[currentTestimonial].avatar}
-              </div>
-              <div className="text-left">
-                <div className="font-semibold">{testimonials[currentTestimonial].name}</div>
-                <div className="text-gray-400">{testimonials[currentTestimonial].role}</div>
-              </div>
-            </div>
-          </motion.div>
-
-          <div className="flex justify-center mt-8 space-x-2">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentTestimonial(index)}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentTestimonial ? 'bg-primary' : 'bg-white/30'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-primary/20 to-purple-400/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -312,10 +186,10 @@ export default function Home({ setPage }) {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to Go Viral?
+              Start Creating Your Viral Reels Today
             </h2>
             <p className="text-xl text-gray-300 mb-8">
-              Join thousands of creators who are already using AttentionX
+              Upload your long-form content and watch the magic happen
             </p>
             <motion.button
               onClick={() => setPage("upload")}
@@ -324,7 +198,7 @@ export default function Home({ setPage }) {
               whileTap={{ scale: 0.95 }}
             >
               <Zap className="w-5 h-5 inline mr-2" />
-              Start Free Trial
+              Get Started Now
             </motion.button>
           </motion.div>
         </div>

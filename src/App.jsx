@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Upload from "./pages/Upload";
 import Processing from "./pages/Processing";
@@ -9,22 +8,32 @@ import ExportPage from "./pages/Export";
 
 export default function App() {
   const [page, setPage] = useState("home");
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [selectedClip, setSelectedClip] = useState(null);
 
   useEffect(() => {
     // Smooth scroll to top on page change
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [page]);
 
+  useEffect(() => {
+    return () => {
+      if (videoUrl) {
+        URL.revokeObjectURL(videoUrl);
+      }
+    };
+  }, [videoUrl]);
+
   const renderPage = () => {
     switch (page) {
       case "upload":
-        return <Upload setPage={setPage} />;
+        return <Upload setPage={setPage} setVideoUrl={setVideoUrl} />;
       case "processing":
         return <Processing setPage={setPage} />;
       case "results":
-        return <Results setPage={setPage} />;
+        return <Results setPage={setPage} videoUrl={videoUrl} selectedClip={selectedClip} setSelectedClip={setSelectedClip} />;
       case "export":
-        return <ExportPage setPage={setPage} />;
+        return <ExportPage setPage={setPage} videoUrl={videoUrl} selectedClip={selectedClip} />;
       default:
         return <Home setPage={setPage} />;
     }
@@ -36,7 +45,6 @@ export default function App() {
       <main className="pt-16">
         {renderPage()}
       </main>
-      <Footer />
     </div>
   );
 }

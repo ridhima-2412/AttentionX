@@ -10,15 +10,29 @@ export default function ClipCard({ clip, onPreview, onDownload, onEdit }) {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="relative mb-4">
-        <img
-          src={clip.thumbnail}
-          alt={clip.title}
-          className="w-full h-48 object-cover rounded-lg"
-        />
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+      <div className="relative mb-4 rounded-lg overflow-hidden">
+        {clip.videoUrl ? (
+          <video
+            src={clip.videoUrl}
+            className="w-full h-48 object-cover rounded-lg"
+            muted
+            playsInline
+            preload="metadata"
+          />
+        ) : (
+          <img
+            src={clip.thumbnail}
+            alt={clip.title}
+            className="w-full h-48 object-cover rounded-lg"
+          />
+        )}
+        <button
+          type="button"
+          onClick={() => onPreview(clip)}
+          className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg"
+        >
           <Play className="w-12 h-12 text-white" />
-        </div>
+        </button>
         <div className="absolute top-2 right-2 bg-primary/90 text-white px-2 py-1 rounded-full text-sm flex items-center space-x-1">
           <Star className="w-4 h-4" />
           <span>{clip.viralScore}</span>
