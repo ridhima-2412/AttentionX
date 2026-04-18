@@ -1,52 +1,31 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0b1020;
-  color: white;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-secondary text-white font-sans;
+  }
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 40px;
-  background: #121a33;
-}
+@layer components {
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-lg;
+  }
 
-.navbar h2 {
-  cursor: pointer;
-}
+  .btn-primary {
+    @apply bg-primary hover:bg-primary/80 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl;
+  }
 
-button {
-  background: #6d5efc;
-  color: white;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 10px;
-  cursor: pointer;
-}
+  .btn-secondary {
+    @apply bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 border border-white/20;
+  }
 
-.page {
-  padding: 40px;
-  text-align: center;
-}
+  .card-glass {
+    @apply glass p-6 hover:scale-105 transition-transform duration-300;
+  }
 
-.upload-box {
-  border: 2px dashed #6d5efc;
-  padding: 50px;
-  margin: 20px auto;
-  width: 60%;
-  border-radius: 12px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
-}
-
-.card {
-  background: #161b33;
-  padding: 20px;
-  border-radius: 14px;
+  .gradient-bg {
+    @apply bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900;
+  }
 }

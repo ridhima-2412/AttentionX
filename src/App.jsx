@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Upload from "./pages/Upload";
 import Processing from "./pages/Processing";
@@ -8,6 +9,11 @@ import ExportPage from "./pages/Export";
 
 export default function App() {
   const [page, setPage] = useState("home");
+
+  useEffect(() => {
+    // Smooth scroll to top on page change
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [page]);
 
   const renderPage = () => {
     switch (page) {
@@ -25,9 +31,12 @@ export default function App() {
   };
 
   return (
-    <div>
+    <div className="min-h-screen gradient-bg">
       <Navbar setPage={setPage} />
-      {renderPage()}
+      <main className="pt-16">
+        {renderPage()}
+      </main>
+      <Footer />
     </div>
   );
 }
