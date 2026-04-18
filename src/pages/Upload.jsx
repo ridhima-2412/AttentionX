@@ -151,9 +151,9 @@ export default function Upload({ setPage, setVideoUrl }) {
                 <div className="flex items-center space-x-4">
                   <FileVideo className="w-12 h-12 text-primary" />
                   <div>
-                    <h3 className="text-lg font-semibold">{file.name}</h3>
+                    <h3 className="text-lg font-semibold">{selectedFile.name}</h3>
                     <p className="text-gray-300">
-                      {(file.size / (1024 * 1024)).toFixed(1)} MB
+                      {(selectedFile.size / (1024 * 1024)).toFixed(1)} MB
                     </p>
                   </div>
                 </div>
