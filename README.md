@@ -1,82 +1,66 @@
-# AttentionX 🚀
+# AttentionX 🎬
 
-Transform long-form videos into viral short-form content with AI-powered editing.
+### Turn Long Videos into Viral Shorts with AI
 
-## ✨ Features
-
-- **AI-Powered Analysis**: Automatically detects emotional peaks and engaging moments
-- **Smart Cropping**: Converts horizontal videos to vertical reels
-- **Dynamic Captions**: Generates viral titles and subtitles
-- **Multi-Platform Export**: Optimized for Instagram, TikTok, and YouTube
-- **Modern UI**: Glassmorphism design with smooth animations
-- **Responsive**: Works perfectly on desktop and mobile
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React 18 + Vite
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
-
-## 🚀 Getting Started
-
-1. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-2. **Start development server**:
-   ```bash
-   npm run dev
-   ```
-
-3. **Build for production**:
-   ```bash
-   npm run build
-   ```
-
-## 📱 Pages
-
-- **Home**: Hero section, features, testimonials, stats
-- **Upload**: Drag & drop file upload with platform selection
-- **Processing**: Animated AI processing steps
-- **Results**: Generated clips with preview and download options
-- **Export**: Customize and download final reels
-
-## 🎨 Design
-
-- Gradient backgrounds and glassmorphism effects
-- Smooth animations and transitions
-- Dark theme with purple/blue accent colors
-- Fully responsive design
-
-## 🤖 AI Features
-
-- Speech pattern analysis
-- Emotional peak detection
-- Automatic video cropping
-- Caption generation
-- Viral score prediction
-
-## 📈 Analytics
-
-Fake analytics included:
-- 10M+ videos processed
-- 500M+ views generated
-- 50K+ creators
-- 95% satisfaction rate
-
-## 🔧 Components
-
-Reusable components:
-- Navbar, Footer
-- FeatureCard, ClipCard
-- Loader, ProgressBar, Modal
-
-## 📄 License
-
-This project is for demonstration purposes.
+AttentionX is an AI-powered content repurposing platform that transforms long-form videos such as lectures, podcasts, and workshops into short, engaging, social-media-ready reels.
 
 ---
 
-**Built with ❤️ for hackathons**
+## 🚀 Problem Statement
+
+Creators, mentors, and educators produce valuable long videos, but modern audiences prefer short-form content. Important insights are often buried inside 60-minute videos and remain unseen.
+
+AttentionX solves this by automatically extracting the best moments and converting them into ready-to-share short clips.
+
+---
+
+## ✨ Features
+
+* 🎯 Detects high-impact moments from long videos
+* 📱 Converts horizontal videos into vertical reels
+* 💬 Generates dynamic captions and hook headlines
+* ⚡ Fast and clean user experience
+* 🌐 Live deployed prototype
+* 🎥 Demo-ready hackathon solution
+
+---
+
+## 🛠 Tech Stack
+
+* React.js
+* Vite
+* JavaScript
+* CSS / Tailwind CSS 
+* Vercel (Deployment)
+
+
+
+## 🎥 Demo Video
+
+https://drive.google.com/file/d/17e13Ptg3A3aJAlfRzpdOiix4NwJVJNX_/view?usp=drivesdk
+
+---
+
+
+## ▶️ Run Locally
+
+```bash id="k1"
+git clone YOUR_GITHUB_REPO_LINK
+cd AttentionX
+npm install
+npm run dev
+```
+## 🔮 Future Scope
+
+* Real AI clip extraction
+* Face tracking smart crop
+* Speech-to-text subtitles
+* Auto posting to Instagram / YouTube Shorts / TikTok
+* Viral analytics dashboard
+* Multi-language caption generation
+
+---
+
+## 📌 Conclusion
+
+AttentionX helps creators save time, increase reach, and turn one long video into multiple engaging short clips automatically.
