@@ -60,7 +60,7 @@ export default function Processing({ setPage }) {
     }, 100);
 
     return () => clearInterval(interval);
-  }, [finished, setPage]);
+  }, [isFinished, setPage]);
 
   useEffect(() => {
     let cumulative = 0;
