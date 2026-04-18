@@ -45,7 +45,7 @@ https://drive.google.com/file/d/17e13Ptg3A3aJAlfRzpdOiix4NwJVJNX_/view?usp=drive
 ## ▶️ Run Locally
 
 ```bash id="k1"
-git clone YOUR_GITHUB_REPO_LINK
+git clone https://github.com/ridhima-2412/AttentionX.git
 cd AttentionX
 npm install
 npm run dev
